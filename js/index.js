@@ -5,6 +5,8 @@ const dpr = window.devicePixelRatio || 1
 canvas.width = 1024 * dpr
 canvas.height = 576 * dpr
 
+const MAP_SCALE = dpr + 3;
+
 const layersData = {
    l_Terrain: l_Terrain,
    l_Front_Renders: l_Front_Renders,
@@ -150,7 +152,7 @@ function animate(backgroundCanvas) {
 
   // Render scene
   c.save()
-  c.scale(dpr, dpr);
+  c.scale(MAP_SCALE, MAP_SCALE);
   c.clearRect(0, 0, canvas.width, canvas.height)
   c.drawImage(backgroundCanvas, 0, 0)
   player.draw(c)
