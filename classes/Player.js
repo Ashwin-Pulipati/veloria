@@ -124,6 +124,8 @@ class Player {
       width: this.attackBoxes[this.facing].width,
       height: this.attackBoxes[this.facing].height,
     };
+
+    this.hasHitEnemy = false;
   }
 
   switchBackToIdleState() {
@@ -141,6 +143,7 @@ class Player {
         this.currentSprite = this.sprites.walkRight;
         break;
     }
+    this.hasHitEnemy = false;
   }
 
   attack() {
@@ -237,6 +240,7 @@ class Player {
       this.isAttacking = false;
       this.attackTimer = 0;
       this.switchBackToIdleState();
+      this.hasHitEnemy = false;
     }
 
     this.elapsedTime += deltaTime
