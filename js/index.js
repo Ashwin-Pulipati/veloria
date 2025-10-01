@@ -145,8 +145,8 @@ const renderStaticLayers = async (layersData) => {
 
 // Change xy coordinates to move player's default position
 const player = new Player({
-  x: 100,
-  y: 100,
+  x: 161,
+  y: 128,
   size: 15,
 });
 
@@ -219,6 +219,20 @@ const monsters = [
   new Monster({
     x: 400,
     y: 400,
+    size: 15,
+    imageSrc: "./images/dragon.png",
+    sprites: monsterSprites,
+  }),
+  new Monster({
+    x: 288,
+    y: 256,
+    size: 15,
+    imageSrc: "./images/bamboo.png",
+    sprites: monsterSprites,
+  }),
+  new Monster({
+    x: 144,
+    y: 336,
     size: 15,
     imageSrc: "./images/dragon.png",
     sprites: monsterSprites,
