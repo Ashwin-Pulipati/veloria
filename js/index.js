@@ -191,6 +191,34 @@ const monsters = [
     imageSrc: "./images/dragon.png",
     sprites: monsterSprites,
   }),
+  new Monster({
+    x: 48,
+    y: 400,
+    size: 15,
+    imageSrc: "./images/bamboo.png",
+    sprites: monsterSprites,
+  }),
+  new Monster({
+    x: 112,
+    y: 416,
+    size: 15,
+    imageSrc: "./images/dragon.png",
+    sprites: monsterSprites,
+  }),
+  new Monster({
+    x: 288,
+    y: 416,
+    size: 15,
+    imageSrc: "./images/bamboo.png",
+    sprites: monsterSprites,
+  }),
+  new Monster({
+    x: 400,
+    y: 400,
+    size: 15,
+    imageSrc: "./images/dragon.png",
+    sprites: monsterSprites,
+  }),
 ];
 const keys = {
   w: {
