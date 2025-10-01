@@ -90,6 +90,40 @@ class Player {
     this.facing = "down" 
     this.isAttacking = false
     this.attackTimer = 0
+    
+    this.attackBoxes = {
+      right: {
+        xOffset: 10,
+        yOffset: 9,
+        width: 20,
+        height: 5,
+      },
+      left: {
+        xOffset: -16,
+        yOffset: 9,
+        width: 20,
+        height: 5,
+      },
+      up: {
+        xOffset: 2,
+        yOffset: -15,
+        width: 5,
+        height: 20,
+      },
+      down: {
+        xOffset: 2,
+        yOffset: 9,
+        width: 5,
+        height: 20,
+      },
+    };
+
+    this.attackBox = {
+      x: this.x + this.attackBoxes[this.facing].xOffset,
+      y: this.y + this.attackBoxes[this.facing].yOffset,
+      width: this.attackBoxes[this.facing].width,
+      height: this.attackBoxes[this.facing].height,
+    };
   }
 
   switchBackToIdleState() {
@@ -129,15 +163,26 @@ class Player {
   }
 
   draw(c) {
-    if (!this.loaded || !this.weaponSpriteHasLoaded) return
+    if (!this.loaded || !this.weaponSpriteHasLoaded) return;
     // Red square debug code
     // c.fillStyle = 'rgba(0, 0, 255, 0.5)'
     // c.fillRect(this.x, this.y, this.width, this.height)
 
+    // Attack box debug code
+    // c.fillStyle = 'rgba(0, 0, 255, 0.5)'
+    // c.fillRect(
+    //   this.attackBox.x,
+    //   this.attackBox.y,
+    //   this.attackBox.width,
+    //   this.attackBox.height
+    // )
+
     c.drawImage(
       this.image,
       this.currentSprite.x,
-      this.currentSprite.y + this.currentSprite.height * this.currentFrame+0.5,
+      this.currentSprite.y +
+        this.currentSprite.height * this.currentFrame +
+        0.5,
       this.currentSprite.width,
       this.currentSprite.height,
       this.x,
@@ -161,15 +206,15 @@ class Player {
           xOffset = 4;
           yOffset = -7;
           break;
-        case "left":
-          angle = Math.PI / 2;
-          xOffset = -8;
-          yOffset = 12;
-          break;
         case "right":
           angle = (Math.PI * 3) / 2;
           xOffset = 22;
           yOffset = 11;
+          break;
+        case "left":
+          angle = Math.PI / 2;
+          xOffset = -8;
+          yOffset = 12;
           break;
       }
       c.save();
@@ -216,6 +261,13 @@ class Player {
       x: this.x + this.width / 2,
       y: this.y + this.height / 2,
     }
+
+    this.attackBox = {
+      x: this.x + this.attackBoxes[this.facing].xOffset,
+      y: this.y + this.attackBoxes[this.facing].yOffset,
+      width: this.attackBoxes[this.facing].width,
+      height: this.attackBoxes[this.facing].height,
+    };
   }
 
   updateHorizontalPosition(deltaTime) {
