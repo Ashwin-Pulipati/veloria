@@ -3,30 +3,29 @@ const Y_VELOCITY = 150
 
 class Player {
   constructor({ x, y, size, velocity = { x: 0, y: 0 } }) {
-    this.x = x
-    this.y = y
-    this.width = size
-    this.height = size
-    this.velocity = velocity
+    this.x = x;
+    this.y = y;
+    this.width = size;
+    this.height = size;
+    this.velocity = velocity;
     this.center = {
       x: this.x + this.width / 2,
       y: this.y + this.height / 2,
-    }
+    };
 
-    this.loaded = false
-    this.image = new Image()
-    this.image.onload = () => (this.loaded = true)
-    this.image.src = './images/player.png'
+    this.loaded = false;
+    this.image = new Image();
+    this.image.onload = () => (this.loaded = true);
+    this.image.src = "./images/player.png";
 
     // Player weapon
     this.weaponSpriteHasLoaded = false;
-    this.weaponSprite = new Image()
+    this.weaponSprite = new Image();
     this.weaponSprite.onload = () => (this.weaponSpriteHasLoaded = true);
-    this.weaponSprite.src = './images/lance.png'
+    this.weaponSprite.src = "./images/lance.png";
 
-
-    this.currentFrame = 0
-    this.elapsedTime = 0
+    this.currentFrame = 0;
+    this.elapsedTime = 0;
     this.sprites = {
       walkDown: {
         x: 0,
@@ -86,11 +85,11 @@ class Player {
       },
     };
 
-    this.currentSprite = this.sprites.walkDown
-    this.facing = "down" 
-    this.isAttacking = false
-    this.attackTimer = 0
-    
+    this.currentSprite = this.sprites.walkDown;
+    this.facing = "down";
+    this.isAttacking = false;
+    this.attackTimer = 0;
+
     this.attackBoxes = {
       right: {
         xOffset: 10,
@@ -126,6 +125,14 @@ class Player {
     };
 
     this.hasHitEnemy = false;
+    this.isInvincible = false;
+    this.elapsedInvincibilityTime = 0;
+    this.invincibilityInterval = 0.8;
+  }
+
+  receiveHit() {
+    if (this.isInvincible) return;
+    this.isInvincible = true;
   }
 
   switchBackToIdleState() {
@@ -161,8 +168,8 @@ class Player {
         this.currentSprite = this.sprites.attackRight;
         break;
     }
-    this.currentFrame = 0
-    this.isAttacking = true
+    this.currentFrame = 0;
+    this.isAttacking = true;
   }
 
   draw(c) {
@@ -179,7 +186,12 @@ class Player {
     //   this.attackBox.width,
     //   this.attackBox.height
     // )
-
+    let alpha = 1;
+    if (this.isInvincible) {
+      alpha = 0.5;
+    }
+    c.save();
+    c.globalAlpha = alpha;
     c.drawImage(
       this.image,
       this.currentSprite.x,
@@ -193,6 +205,7 @@ class Player {
       this.width,
       this.height
     );
+    c.restore();
 
     if (this.isAttacking) {
       let angle = 0;
@@ -221,6 +234,7 @@ class Player {
           break;
       }
       c.save();
+      c.globalAlpha = alpha;
       c.translate(this.x + xOffset, this.y + yOffset);
       c.rotate(angle);
       // Draw out our weapon
@@ -230,8 +244,8 @@ class Player {
   }
 
   update(deltaTime, collisionBlocks) {
-    if (!deltaTime) return
-    
+    if (!deltaTime) return;
+
     // Update attack timer
     const timeToCompleteAttack = 0.3;
     if (this.isAttacking && this.attackTimer < timeToCompleteAttack) {
@@ -243,28 +257,35 @@ class Player {
       this.hasHitEnemy = false;
     }
 
-    this.elapsedTime += deltaTime
+    this.elapsedTime += deltaTime;
 
-    const intervalToGoToNextFrame = 0.15
+    if (this.isInvincible) {
+      this.elapsedInvincibilityTime += deltaTime;
+      if (this.elapsedInvincibilityTime >= this.invincibilityInterval) {
+        this.isInvincible = false;
+        this.elapsedInvincibilityTime = 0;
+      }
+    }
+
+    const intervalToGoToNextFrame = 0.15;
     if (this.elapsedTime >= intervalToGoToNextFrame) {
       this.currentFrame =
         (this.currentFrame + 1) % this.currentSprite.frameCount;
       this.elapsedTime -= intervalToGoToNextFrame;
     }
-    
 
     // Update horizontal position and check collisions
-    this.updateHorizontalPosition(deltaTime)
-    this.checkForHorizontalCollisions(collisionBlocks)
+    this.updateHorizontalPosition(deltaTime);
+    this.checkForHorizontalCollisions(collisionBlocks);
 
     // Update vertical position and check collisions
-    this.updateVerticalPosition(deltaTime)
-    this.checkForVerticalCollisions(collisionBlocks)
+    this.updateVerticalPosition(deltaTime);
+    this.checkForVerticalCollisions(collisionBlocks);
 
-    this.center =  {
+    this.center = {
       x: this.x + this.width / 2,
       y: this.y + this.height / 2,
-    }
+    };
 
     this.attackBox = {
       x: this.x + this.attackBoxes[this.facing].xOffset,
@@ -275,48 +296,48 @@ class Player {
   }
 
   updateHorizontalPosition(deltaTime) {
-    this.x += this.velocity.x * deltaTime
+    this.x += this.velocity.x * deltaTime;
   }
 
   updateVerticalPosition(deltaTime) {
-    this.y += this.velocity.y * deltaTime
+    this.y += this.velocity.y * deltaTime;
   }
 
   handleInput(keys) {
-    this.velocity.x = 0
-    this.velocity.y = 0
+    this.velocity.x = 0;
+    this.velocity.y = 0;
 
-    if (this.isAttacking) return
+    if (this.isAttacking) return;
 
     if (keys.d.pressed) {
-      this.velocity.x = X_VELOCITY
-      this.currentSprite = this.sprites.walkRight
-      this.currentSprite.frameCount = 4
-      this.facing = "right"
+      this.velocity.x = X_VELOCITY;
+      this.currentSprite = this.sprites.walkRight;
+      this.currentSprite.frameCount = 4;
+      this.facing = "right";
     } else if (keys.a.pressed) {
-      this.velocity.x = -X_VELOCITY
-      this.currentSprite = this.sprites.walkLeft
+      this.velocity.x = -X_VELOCITY;
+      this.currentSprite = this.sprites.walkLeft;
       this.currentSprite.frameCount = 4;
-      this.facing = "left"
+      this.facing = "left";
     } else if (keys.w.pressed) {
-      this.velocity.y = -Y_VELOCITY
-      this.currentSprite = this.sprites.walkUp
+      this.velocity.y = -Y_VELOCITY;
+      this.currentSprite = this.sprites.walkUp;
       this.currentSprite.frameCount = 4;
-      this.facing = "up"
+      this.facing = "up";
     } else if (keys.s.pressed) {
-      this.velocity.y = Y_VELOCITY
-      this.currentSprite = this.sprites.walkDown
+      this.velocity.y = Y_VELOCITY;
+      this.currentSprite = this.sprites.walkDown;
       this.currentSprite.frameCount = 4;
-        this.facing = "down"
+      this.facing = "down";
     } else {
-      this.currentSprite.frameCount = 1
+      this.currentSprite.frameCount = 1;
     }
   }
 
   checkForHorizontalCollisions(collisionBlocks) {
-    const buffer = 0.0001
+    const buffer = 0.0001;
     for (let i = 0; i < collisionBlocks.length; i++) {
-      const collisionBlock = collisionBlocks[i]
+      const collisionBlock = collisionBlocks[i];
 
       // Check if a collision exists on all axes
       if (
@@ -327,24 +348,24 @@ class Player {
       ) {
         // Check collision while player is going left
         if (this.velocity.x < -0) {
-          this.x = collisionBlock.x + collisionBlock.width + buffer
-          break
+          this.x = collisionBlock.x + collisionBlock.width + buffer;
+          break;
         }
 
         // Check collision while player is going right
         if (this.velocity.x > 0) {
-          this.x = collisionBlock.x - this.width - buffer
+          this.x = collisionBlock.x - this.width - buffer;
 
-          break
+          break;
         }
       }
     }
   }
 
   checkForVerticalCollisions(collisionBlocks) {
-    const buffer = 0.0001
+    const buffer = 0.0001;
     for (let i = 0; i < collisionBlocks.length; i++) {
-      const collisionBlock = collisionBlocks[i]
+      const collisionBlock = collisionBlocks[i];
 
       // If a collision exists
       if (
@@ -355,16 +376,16 @@ class Player {
       ) {
         // Check collision while player is going up
         if (this.velocity.y < 0) {
-          this.velocity.y = 0
-          this.y = collisionBlock.y + collisionBlock.height + buffer
-          break
+          this.velocity.y = 0;
+          this.y = collisionBlock.y + collisionBlock.height + buffer;
+          break;
         }
 
         // Check collision while player is going down
         if (this.velocity.y > 0) {
-          this.velocity.y = 0
-          this.y = collisionBlock.y - this.height - buffer
-          break
+          this.velocity.y = 0;
+          this.y = collisionBlock.y - this.height - buffer;
+          break;
         }
       }
     }
