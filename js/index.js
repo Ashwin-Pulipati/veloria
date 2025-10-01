@@ -1,4 +1,4 @@
-  const canvas = document.querySelector("canvas");
+const canvas = document.querySelector("canvas");
 const c = canvas.getContext("2d");
 const dpr = window.devicePixelRatio || 1;
 
@@ -10,7 +10,7 @@ const MAP_ROWS = 28;
 const MAP_WIDTH = 16 * MAP_COLS;
 const MAP_HEIGHT = 16 * MAP_ROWS;
 
-const MAP_SCALE = dpr + 1.1;
+const MAP_SCALE = dpr + 2;
 
 const VIEWPORT_WIDTH = canvas.width / MAP_SCALE;
 const VIEWPORT_HEIGHT = canvas.height / MAP_SCALE;
@@ -362,8 +362,14 @@ function animate(backgroundCanvas) {
         filledHearts[filledHearts.length-1].currentFrame = 0
       }
 
-      if (filledHearts.length<=1) {
-        console.log('game over')
+      if (filledHearts.length <= 1) {
+        const gameOverScreen = document.getElementById('game-over-screen');
+        gameOverScreen.style.display = 'flex';
+        const restartButton = document.getElementById('restart-button');
+        restartButton.addEventListener('click', () => {
+          window.location.reload();
+        });
+        return;
       }
     } 
   }
@@ -407,4 +413,10 @@ const startRendering = async () => {
   }
 };
 
-startRendering();
+const splashScreen = document.getElementById('splash-screen');
+const startButton = document.getElementById('start-button');
+
+startButton.addEventListener('click', () => {
+  splashScreen.style.display = 'none';
+  startRendering();
+});
