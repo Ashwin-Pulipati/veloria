@@ -12,6 +12,10 @@ window.addEventListener('keydown', (event) => {
     case 'd':
       keys.d.pressed = true
       break
+    case ' ':
+      event.preventDefault()
+      player.attack()
+      break
   }
 })
 

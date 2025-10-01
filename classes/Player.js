@@ -17,6 +17,14 @@ class Player {
     this.image = new Image()
     this.image.onload = () => (this.loaded = true)
     this.image.src = './images/player.png'
+
+    // Player weapon
+    this.weaponSpriteHasLoaded = false;
+    this.weaponSprite = new Image()
+    this.weaponSprite.onload = () => (this.weaponSpriteHasLoaded = true);
+    this.weaponSprite.src = './images/lance.png'
+
+
     this.currentFrame = 0
     this.elapsedTime = 0
     this.sprites = {
@@ -48,21 +56,88 @@ class Player {
         height: 16,
         frameCount: 4,
       },
+      attackDown: {
+        x: 0,
+        y: 64,
+        width: 16,
+        height: 15,
+        frameCount: 1,
+      },
+      attackUp: {
+        x: 16,
+        y: 64,
+        width: 16,
+        height: 15,
+        frameCount: 1,
+      },
+      attackLeft: {
+        x: 32,
+        y: 64,
+        width: 16,
+        height: 15,
+        frameCount: 1,
+      },
+      attackRight: {
+        x: 48,
+        y: 64,
+        width: 16,
+        height: 15,
+        frameCount: 1,
+      },
     };
 
     this.currentSprite = this.sprites.walkDown
+    this.facing = "down" 
+    this.isAttacking = false
+    this.attackTimer = 0
+  }
+
+  switchBackToIdleState() {
+    switch (this.facing) {
+      case "down":
+        this.currentSprite = this.sprites.walkDown;
+        break;
+      case "up":
+        this.currentSprite = this.sprites.walkUp;
+        break;
+      case "left":
+        this.currentSprite = this.sprites.walkLeft;
+        break;
+      case "right":
+        this.currentSprite = this.sprites.walkRight;
+        break;
+    }
+  }
+
+  attack() {
+    switch (this.facing) {
+      case "down":
+        this.currentSprite = this.sprites.attackDown;
+        break;
+      case "up":
+        this.currentSprite = this.sprites.attackUp;
+        break;
+      case "left":
+        this.currentSprite = this.sprites.attackLeft;
+        break;
+      case "right":
+        this.currentSprite = this.sprites.attackRight;
+        break;
+    }
+    this.currentFrame = 0
+    this.isAttacking = true
   }
 
   draw(c) {
-    if (!this.loaded) return
+    if (!this.loaded || !this.weaponSpriteHasLoaded) return
     // Red square debug code
     // c.fillStyle = 'rgba(0, 0, 255, 0.5)'
     // c.fillRect(this.x, this.y, this.width, this.height)
-    
+
     c.drawImage(
       this.image,
       this.currentSprite.x,
-      this.currentSprite.height * this.currentFrame+0.5,
+      this.currentSprite.y + this.currentSprite.height * this.currentFrame+0.5,
       this.currentSprite.width,
       this.currentSprite.height,
       this.x,
@@ -70,11 +145,55 @@ class Player {
       this.width,
       this.height
     );
+
+    if (this.isAttacking) {
+      let angle = 0;
+      let xOffset = 0;
+      let yOffset = 0;
+      switch (this.facing) {
+        case "down":
+          angle = 0;
+          xOffset = 5;
+          yOffset = 22;
+          break;
+        case "up":
+          angle = Math.PI;
+          xOffset = 4;
+          yOffset = -7;
+          break;
+        case "left":
+          angle = Math.PI / 2;
+          xOffset = -8;
+          yOffset = 12;
+          break;
+        case "right":
+          angle = (Math.PI * 3) / 2;
+          xOffset = 22;
+          yOffset = 11;
+          break;
+      }
+      c.save();
+      c.translate(this.x + xOffset, this.y + yOffset);
+      c.rotate(angle);
+      // Draw out our weapon
+      c.drawImage(this.weaponSprite, -3, -8, 6, 16);
+      c.restore();
+    }
   }
 
   update(deltaTime, collisionBlocks) {
     if (!deltaTime) return
     
+    // Update attack timer
+    const timeToCompleteAttack = 0.3;
+    if (this.isAttacking && this.attackTimer < timeToCompleteAttack) {
+      this.attackTimer += deltaTime;
+    } else if (this.isAttacking && this.attackTimer >= timeToCompleteAttack) {
+      this.isAttacking = false;
+      this.attackTimer = 0;
+      this.switchBackToIdleState();
+    }
+
     this.elapsedTime += deltaTime
 
     const intervalToGoToNextFrame = 0.15
@@ -111,22 +230,28 @@ class Player {
     this.velocity.x = 0
     this.velocity.y = 0
 
+    if (this.isAttacking) return
+
     if (keys.d.pressed) {
       this.velocity.x = X_VELOCITY
       this.currentSprite = this.sprites.walkRight
       this.currentSprite.frameCount = 4
+      this.facing = "right"
     } else if (keys.a.pressed) {
       this.velocity.x = -X_VELOCITY
       this.currentSprite = this.sprites.walkLeft
       this.currentSprite.frameCount = 4;
+      this.facing = "left"
     } else if (keys.w.pressed) {
       this.velocity.y = -Y_VELOCITY
       this.currentSprite = this.sprites.walkUp
       this.currentSprite.frameCount = 4;
+      this.facing = "up"
     } else if (keys.s.pressed) {
       this.velocity.y = Y_VELOCITY
       this.currentSprite = this.sprites.walkDown
       this.currentSprite.frameCount = 4;
+        this.facing = "down"
     } else {
       this.currentSprite.frameCount = 1
     }
