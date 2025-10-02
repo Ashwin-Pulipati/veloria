@@ -39,6 +39,7 @@ class Monster {
     receiveHit() {
         if (this.isInvincible) return
         this.health--
+        sounds.monsterDamage.play()
         this.isInvincible = true
     }
 

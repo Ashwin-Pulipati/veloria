@@ -132,6 +132,7 @@ class Player {
 
   receiveHit() {
     if (this.isInvincible) return;
+    sounds.playerDamage.play();
     this.isInvincible = true;
   }
 
@@ -170,6 +171,7 @@ class Player {
     }
     this.currentFrame = 0;
     this.isAttacking = true;
+    sounds.attack.play();
   }
 
   draw(c) {

@@ -344,6 +344,7 @@ function animate(backgroundCanvas) {
       monster.receiveHit();
       player.hasHitEnemy = true;
       if (monster.health <= 0) {
+        sounds.monsterDefeated.play();
         monsters.splice(i, 1);
       }
     }
@@ -366,8 +367,10 @@ function animate(backgroundCanvas) {
         gameOverScreen.style.display = "flex";
         const restartButton = document.getElementById("restart-button");
         restartButton.addEventListener("click", () => {
+          sounds.uiClick.play();
           window.location.reload();
         });
+        sounds.gameOver.play();
         return;
       }
     }
@@ -381,6 +384,17 @@ function animate(backgroundCanvas) {
     leaf.draw(c);
 
     if (leaf.alpha <= 0) {
+      leaves.splice(i, 1);
+    }
+
+    // Detect for collision between player and leaf
+    if (
+      player.x < leaf.x + leaf.width &&
+      player.x + player.width > leaf.x &&
+      player.y < leaf.y + leaf.height &&
+      player.y + player.height > leaf.y
+    ) {
+      sounds.leafCollect.play();
       leaves.splice(i, 1);
     }
   }
@@ -416,6 +430,9 @@ const splashScreen = document.getElementById("splash-screen");
 const startButton = document.getElementById("start-button");
 
 startButton.addEventListener("click", () => {
+  sounds.uiClick.play();
+  sounds.gameStart.play();
+  sounds.ambiance.play();
   splashScreen.style.display = "none";
   startRendering();
 });
