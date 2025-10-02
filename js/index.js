@@ -376,6 +376,18 @@ function animate(backgroundCanvas) {
     }
   }
 
+  // Check for game success
+  if (monsters.length === 0) {
+    const successScreen = document.getElementById("success-screen");
+    successScreen.style.display = "flex";
+    const playAgainButton = document.getElementById("play-again-button");
+    playAgainButton.addEventListener("click", () => {
+      sounds.uiClick.play();
+      window.location.reload();
+    });
+    return;
+  }
+
   c.drawImage(frontRendersCanvas, 0, 0);
 
   for (let i = leaves.length - 1; i >= 0; i--) {
