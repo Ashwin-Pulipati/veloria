@@ -1,3 +1,10 @@
+const openSettingsButton = document.getElementById("open-settings-button");
+const closeSettingsButton = document.getElementById("close-settings-button");
+const settingsPanel = document.getElementById("settings-panel");
+const musicToggleButton = document.getElementById("music-toggle-button");
+
+let isPaused = false; 
+
 const canvas = document.querySelector("canvas");
 const c = canvas.getContext("2d");
 const dpr = window.devicePixelRatio || 1;
@@ -283,6 +290,11 @@ const leaves = [
 
 let elapsedTime = 0;
 function animate(backgroundCanvas) {
+
+  if (isPaused) {
+    requestAnimationFrame(() => animate(backgroundCanvas));
+    return; // Skip the rest of the function if paused
+  }
   // Calculate delta time
   const currentTime = performance.now();
   const deltaTime = (currentTime - lastTime) / 1000;
@@ -446,5 +458,27 @@ startButton.addEventListener("click", () => {
   sounds.gameStart.play();
   sounds.ambiance.play();
   splashScreen.style.display = "none";
+  openSettingsButton.style.display = "block";
   startRendering();
+});
+
+openSettingsButton.addEventListener("click", () => {
+  sounds.uiClick.play();
+  isPaused = true;
+  settingsPanel.style.display = "flex";
+});
+
+closeSettingsButton.addEventListener("click", () => {
+  sounds.uiClick.play();
+  isPaused = false;
+  settingsPanel.style.display = "none";
+  lastTime = performance.now(); 
+});
+
+musicToggleButton.addEventListener("click", () => {
+  sounds.uiClick.play();
+  sounds.ambiance.muted = !sounds.ambiance.muted;
+  musicToggleButton.textContent = sounds.ambiance.muted
+    ? "Music: OFF 🔇"
+    : "Music: ON 🔊";
 });
