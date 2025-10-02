@@ -1,5 +1,5 @@
 <div align="center">
-  <a href="https://github.com/Ashwin-Pulipati/Veloria">
+  <a href="https://github.com/Ashwin-Pulipati/veloria">
     <img src="images/logo.png" alt="Logo" width="80" height="80">
   </a>
 
@@ -8,7 +8,7 @@
   <p align="center">
     A 2D adventure game built with HTML5 Canvas and JavaScript.
     <br />
-    <a href="https://ashwin-pulipati.github.io/Veloria/"><strong>View Demo »</strong></a>
+    <a href="https://ashwin-pulipati.github.io/veloria/"><strong>View Demo »</strong></a>
   </p>
 </div>
 
@@ -45,7 +45,7 @@ You only need a modern web browser that supports HTML5 and JavaScript.
 
 1.  **Clone the repository:**
     ```sh
-    git clone https://github.com/Ashwin-Pulipati/Veloria.git
+    git clone https://github.com/Ashwin-Pulipati/veloria.git
     cd Veloria
     ```
 2.  **Run the game:**
@@ -79,8 +79,8 @@ Don't forget to give the project a star! Thanks again!
 5.  Open a Pull Request
 
 You can also report a bug or request a feature by opening an issue:
-- [Report Bug](https://github.com/Ashwin-Pulipati/Veloria/issues)
-- [Request Feature](https://github.com/Ashwin-Pulipati/Veloria/issues)
+- [Report Bug](https://github.com/Ashwin-Pulipati/veloria/issues)
+- [Request Feature](https://github.com/Ashwin-Pulipati/veloria/issues)
 
 
 ## 📄 License
@@ -91,4 +91,4 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 Ashwin Pulipati - [LinkedIn](https.linkedin.com/in/ashwinpulipati/) - ashwinpulipati@gmail.com
 
-Project Link: [https://github.com/Ashwin-Pulipati/Veloria](https://github.com/Ashwin-Pulipati/Veloria)
+Project Link: [https://github.com/Ashwin-Pulipati/veloria](https://github.com/Ashwin-Pulipati/veloria)
