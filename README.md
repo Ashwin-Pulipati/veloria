@@ -63,7 +63,9 @@ You only need a modern web browser that supports HTML5 and JavaScript.
 
 ## 🚀 Usage
 
-Use the **WASD** or **Arrow Keys** to move your character around the map and use the **Space Key**  to unleash your weapon to deafeat your enemies. Explore the world, avoid obstacles, and interact with different elements. The objective is to navigate through the levels while surviving encounters with monsters.
+Use the **WASD** or **Arrow Keys** to move your character around the map and the **Space Key** to attack enemies. The main objective is to defeat all the monsters that have invaded the village.
+
+You can access the **Settings & Info** panel by clicking the **⚙️** button on the top right of the screen. This panel provides information on the game's objective, controls, and includes an option to toggle the music.
 
 ## 🤝 Contributing
 
