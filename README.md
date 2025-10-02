@@ -63,7 +63,7 @@ You only need a modern web browser that supports HTML5 and JavaScript.
 
 ## 🚀 Usage
 
-Use the **WASD** or **Arrow Keys** to move your character around the map and use the **Space** key to unleash your weapon to deafeat your enemies. Explore the world, avoid obstacles, and interact with different elements. The objective is to navigate through the levels while surviving encounters with monsters.
+Use the **WASD** or **Arrow Keys** to move your character around the map and use the **Space Key**  to unleash your weapon to deafeat your enemies. Explore the world, avoid obstacles, and interact with different elements. The objective is to navigate through the levels while surviving encounters with monsters.
 
 ## 🤝 Contributing
 
