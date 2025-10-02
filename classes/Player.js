@@ -1,5 +1,5 @@
-const X_VELOCITY = 150
-const Y_VELOCITY = 150
+const X_VELOCITY = 150;
+const Y_VELOCITY = 150;
 
 class Player {
   constructor({ x, y, size, velocity = { x: 0, y: 0 } }) {

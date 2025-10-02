@@ -185,56 +185,56 @@ const monsters = [
     x: 200,
     y: 150,
     size: 15,
-    imageSrc: "./images/bamboo.png",
+    imageSrc: "./images/flam.png",
     sprites: monsterSprites,
   }),
   new Monster({
     x: 300,
     y: 150,
     size: 15,
-    imageSrc: "./images/dragon.png",
+    imageSrc: "./images/cyclope.png",
     sprites: monsterSprites,
   }),
   new Monster({
     x: 48,
     y: 400,
     size: 15,
-    imageSrc: "./images/bamboo.png",
+    imageSrc: "./images/flam.png",
     sprites: monsterSprites,
   }),
   new Monster({
     x: 112,
     y: 416,
     size: 15,
-    imageSrc: "./images/dragon.png",
+    imageSrc: "./images/cyclope.png",
     sprites: monsterSprites,
   }),
   new Monster({
     x: 288,
     y: 416,
     size: 15,
-    imageSrc: "./images/bamboo.png",
+    imageSrc: "./images/flam.png",
     sprites: monsterSprites,
   }),
   new Monster({
     x: 400,
     y: 400,
     size: 15,
-    imageSrc: "./images/dragon.png",
+    imageSrc: "./images/cyclope.png",
     sprites: monsterSprites,
   }),
   new Monster({
     x: 288,
     y: 256,
     size: 15,
-    imageSrc: "./images/bamboo.png",
+    imageSrc: "./images/flam.png",
     sprites: monsterSprites,
   }),
   new Monster({
     x: 144,
     y: 336,
     size: 15,
-    imageSrc: "./images/dragon.png",
+    imageSrc: "./images/cyclope.png",
     sprites: monsterSprites,
   }),
 ];
@@ -277,18 +277,18 @@ const leaves = [
     velocity: {
       x: 0.08,
       y: 0.08,
-    }
-  })
-]
+    },
+  }),
+];
 
-let elapsedTime = 0
+let elapsedTime = 0;
 function animate(backgroundCanvas) {
   // Calculate delta time
   const currentTime = performance.now();
   const deltaTime = (currentTime - lastTime) / 1000;
   lastTime = currentTime;
 
-  elapsedTime += deltaTime
+  elapsedTime += deltaTime;
 
   if (elapsedTime > 1.5) {
     leaves.push(
@@ -301,7 +301,7 @@ function animate(backgroundCanvas) {
         },
       })
     );
-    elapsedTime = 0
+    elapsedTime = 0;
   }
 
   // Update player position
@@ -338,14 +338,14 @@ function animate(backgroundCanvas) {
       player.attackBox.x <= monster.x + monster.width &&
       player.attackBox.y + player.attackBox.height >= monster.y &&
       player.attackBox.y <= monster.y + monster.height &&
-      player.isAttacking && !player.hasHitEnemy
+      player.isAttacking &&
+      !player.hasHitEnemy
     ) {
-      monster.receiveHit()
-      player.hasHitEnemy = true
+      monster.receiveHit();
+      player.hasHitEnemy = true;
       if (monster.health <= 0) {
-        monsters.splice(i, 1)
+        monsters.splice(i, 1);
       }
-      
     }
 
     if (
@@ -355,45 +355,44 @@ function animate(backgroundCanvas) {
       player.y <= monster.y + monster.height &&
       !player.isInvincible
     ) {
-      player.receiveHit()
-      const filledHearts = hearts.filter((heart) => 
-        heart.currentFrame === 4)
+      player.receiveHit();
+      const filledHearts = hearts.filter((heart) => heart.currentFrame === 4);
       if (filledHearts.length > 0) {
-        filledHearts[filledHearts.length-1].currentFrame = 0
+        filledHearts[filledHearts.length - 1].currentFrame = 0;
       }
 
       if (filledHearts.length <= 1) {
-        const gameOverScreen = document.getElementById('game-over-screen');
-        gameOverScreen.style.display = 'flex';
-        const restartButton = document.getElementById('restart-button');
-        restartButton.addEventListener('click', () => {
+        const gameOverScreen = document.getElementById("game-over-screen");
+        gameOverScreen.style.display = "flex";
+        const restartButton = document.getElementById("restart-button");
+        restartButton.addEventListener("click", () => {
           window.location.reload();
         });
         return;
       }
-    } 
+    }
   }
-  
+
   c.drawImage(frontRendersCanvas, 0, 0);
 
   for (let i = leaves.length - 1; i >= 0; i--) {
-    const leaf = leaves[ i ];
+    const leaf = leaves[i];
     leaf.update(deltaTime);
     leaf.draw(c);
 
-    if (leaf.alpha<=0) {
-      leaves.splice(i, 1)
+    if (leaf.alpha <= 0) {
+      leaves.splice(i, 1);
     }
   }
 
   c.restore();
 
-  c.save()
+  c.save();
   c.scale(MAP_SCALE, MAP_SCALE);
   hearts.forEach((heart) => {
     heart.draw(c);
   });
-  c.restore()
+  c.restore();
 
   requestAnimationFrame(() => animate(backgroundCanvas));
 }
@@ -413,10 +412,10 @@ const startRendering = async () => {
   }
 };
 
-const splashScreen = document.getElementById('splash-screen');
-const startButton = document.getElementById('start-button');
+const splashScreen = document.getElementById("splash-screen");
+const startButton = document.getElementById("start-button");
 
-startButton.addEventListener('click', () => {
-  splashScreen.style.display = 'none';
+startButton.addEventListener("click", () => {
+  splashScreen.style.display = "none";
   startRendering();
 });
