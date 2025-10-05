@@ -113,7 +113,7 @@ class Monster {
         ) {
           this.elapsedMovementTime -= changeDirectionInterval;
           const angle = Math.random() * 2 * Math.PI;
-          const CIRCLE_RADIUS = 15;
+          const CIRCLE_RADIUS = 10;
           const targetLocation = {
             x: this.originalPosition.x + Math.cos(angle) * CIRCLE_RADIUS,
             y: this.originalPosition.y + Math.sin(angle) * CIRCLE_RADIUS,

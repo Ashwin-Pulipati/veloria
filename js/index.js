@@ -192,8 +192,8 @@ const monsterSprites = {
 };
 const monsters = [
   new Monster({
-    x: 200,
-    y: 150,
+    x: 210,
+    y: 155,
     size: 15,
     imageSrc: "./images/flam.png",
     sprites: monsterSprites,
