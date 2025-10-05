@@ -241,7 +241,8 @@ canvas {
   cursor: pointer;
 }
 
-#music-toggle-button {
+#music-toggle-button,
+#sound-toggle-button {
   background-color: #4caf50;
   color: white;
   border: none;
@@ -250,6 +251,7 @@ canvas {
   cursor: pointer;
   font-size: 16px;
   width: 150px;
+  margin-top: 10px;
 }
 </style>
 <button id="open-settings-button">⚙️</button>
@@ -273,6 +275,7 @@ canvas {
     <div class="info-section">
       <h3>🎵 Audio</h3>
       <button id="music-toggle-button">Music: ON 🔊</button>
+      <button id="sound-toggle-button">Sounds: ON 🔊</button>
     </div>
   </div>
 </div>
@@ -284,7 +287,7 @@ canvas {
   <button id="start-button">Start Game <span class="emoji">▶️</span></button>
   <div class="key-instructions">
     <p>
-      Move: <kbd>W</kbd> <kbd>A</kbd> <kbd>S</kbd> <kbd>D</kbd> | Attack:
+      Move: <kbd>W</kbd> <kbd>A</kbd> <kbd>S</kbd> <kbd>D</kbd> ⭐  Attack:
       <kbd>Spacebar</kbd>
     </p>
   </div>

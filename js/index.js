@@ -2,6 +2,7 @@ const openSettingsButton = document.getElementById("open-settings-button");
 const closeSettingsButton = document.getElementById("close-settings-button");
 const settingsPanel = document.getElementById("settings-panel");
 const musicToggleButton = document.getElementById("music-toggle-button");
+const soundToggleButton = document.getElementById("sound-toggle-button");
 
 let isPaused = false; 
 
@@ -481,4 +482,17 @@ musicToggleButton.addEventListener("click", () => {
   musicToggleButton.textContent = sounds.ambiance.muted
     ? "Music: OFF 🔇"
     : "Music: ON 🔊";
+});
+
+soundToggleButton.addEventListener("click", () => {
+  sounds.uiClick.play();
+  const isMuted = Object.values(sounds).filter(sound => sound !== sounds.uiClick && sound !== sounds.ambiance).some(sound => !sound.muted);
+  for (const sound of Object.values(sounds)) {
+    if (sound !== sounds.uiClick && sound !== sounds.ambiance) {
+      sound.muted = isMuted;
+    }
+  }
+  soundToggleButton.textContent = isMuted
+    ? "Sounds: OFF 🔇"
+    : "Sounds: ON 🔊";
 });

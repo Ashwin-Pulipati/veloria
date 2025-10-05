@@ -24,6 +24,10 @@ This project is built with fundamental web technologies, demonstrating a pure Ja
 *   **Game Logic:** Vanilla JavaScript
 *   **Rendering:** HTML5 Canvas
 
+## 🛠️ Tools Used
+
+*   **MapperMate:** A free online tilemap editor used for creating the game maps.
+
 ## ✅ Key Features
 
 - **Dynamic Player Movement:** Smooth, key-based character navigation.
