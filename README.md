@@ -51,7 +51,7 @@ You only need a modern web browser that supports HTML5 and JavaScript.
 1.  **Clone the repository:**
     ```sh
     git clone https://github.com/Ashwin-Pulipati/veloria.git
-    cd Veloria
+    cd veloria
     ```
 2.  **Run the game:**
     Simply open the `index.html` file in your web browser.
