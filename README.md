@@ -1,6 +1,6 @@
 <div align="center">
   <a href="https://github.com/Ashwin-Pulipati/veloria">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
+    <img src="images/logo.png" alt="Logo" width="80" height="90">
   </a>
 
   <h3 align="center">Veloria</h3>
