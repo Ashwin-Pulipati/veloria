@@ -12,6 +12,18 @@ window.addEventListener('keydown', (event) => {
     case 'd':
       keys.d.pressed = true
       break
+    case 'ArrowUp':
+      keys.ArrowUp.pressed = true
+      break
+    case 'ArrowDown':
+      keys.ArrowDown.pressed = true
+      break
+    case 'ArrowLeft':
+      keys.ArrowLeft.pressed = true
+      break
+    case 'ArrowRight':
+      keys.ArrowRight.pressed = true
+      break
     case ' ':
       event.preventDefault()
       player.attack()
@@ -32,6 +44,18 @@ window.addEventListener('keyup', (event) => {
       break
     case 'd':
       keys.d.pressed = false
+      break
+    case 'ArrowUp':
+      keys.ArrowUp.pressed = false
+      break
+    case 'ArrowDown':
+      keys.ArrowDown.pressed = false
+      break
+    case 'ArrowLeft':
+      keys.ArrowLeft.pressed = false
+      break
+    case 'ArrowRight':
+      keys.ArrowRight.pressed = false
       break
   }
 })

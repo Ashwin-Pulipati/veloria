@@ -311,22 +311,22 @@ class Player {
 
     if (this.isAttacking) return;
 
-    if (keys.d.pressed) {
+    if (keys.d.pressed || keys.ArrowRight.pressed) {
       this.velocity.x = X_VELOCITY;
       this.currentSprite = this.sprites.walkRight;
       this.currentSprite.frameCount = 4;
       this.facing = "right";
-    } else if (keys.a.pressed) {
+    } else if (keys.a.pressed || keys.ArrowLeft.pressed) {
       this.velocity.x = -X_VELOCITY;
       this.currentSprite = this.sprites.walkLeft;
       this.currentSprite.frameCount = 4;
       this.facing = "left";
-    } else if (keys.w.pressed) {
+    } else if (keys.w.pressed || keys.ArrowUp.pressed) {
       this.velocity.y = -Y_VELOCITY;
       this.currentSprite = this.sprites.walkUp;
       this.currentSprite.frameCount = 4;
       this.facing = "up";
-    } else if (keys.s.pressed) {
+    } else if (keys.s.pressed || keys.ArrowDown.pressed) {
       this.velocity.y = Y_VELOCITY;
       this.currentSprite = this.sprites.walkDown;
       this.currentSprite.frameCount = 4;

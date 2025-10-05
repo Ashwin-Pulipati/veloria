@@ -261,6 +261,18 @@ const keys = {
   d: {
     pressed: false,
   },
+  ArrowUp: {
+    pressed: false,
+  },
+  ArrowDown: {
+    pressed: false,
+  },
+  ArrowLeft: {
+    pressed: false,
+  },
+  ArrowRight: {
+    pressed: false,
+  },
 };
 
 let lastTime = performance.now();
