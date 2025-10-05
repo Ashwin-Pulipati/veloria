@@ -70,7 +70,7 @@ You only need a modern web browser that supports HTML5 and JavaScript.
 
 When you first load the game, you will be greeted with a splash screen. Clicking the "Start Game" button will open an instruction pop-up with details on the game's objective and controls. Click "Continue" to start the game.
 
-Use the **WASD** to move your character around the map and the **Space Key** to attack enemies. The main objective is to defeat all the monsters that have invaded the village.
+Use the **W** (Up), **A** (Left), **S** (Down), and **D** (Right) keys to move your character around the map and the **Space Key** to attack enemies. The main objective is to defeat all the monsters that have invaded the village.
 
 You can access the **Settings & Info** panel by clicking the **⚙️** button on the top right of the screen. This panel provides information on the game's objective, controls, and includes options to toggle the music and sound effects.
 
