@@ -26,7 +26,7 @@ class Monster {
     this.image.src = imageSrc;
     this.currentFrame = 0;
       this.elapsedTime = 0;
-      this.elapsedMovementTime = 0;
+      this.elapsedMovementTime = Math.random() * 1;
     this.sprites = sprites
 
       this.currentSprite = Object.values(this.sprites)[ 0 ]
@@ -107,10 +107,7 @@ class Monster {
     
     setVelocity(deltaTime) {
         const changeDirectionInterval = 1
-        if (
-          this.elapsedMovementTime > changeDirectionInterval ||
-          this.elapsedMovementTime === 0
-        ) {
+        if (this.elapsedMovementTime > changeDirectionInterval) {
           this.elapsedMovementTime -= changeDirectionInterval;
           const angle = Math.random() * 2 * Math.PI;
           const CIRCLE_RADIUS = 10;

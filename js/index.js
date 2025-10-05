@@ -351,15 +351,13 @@ function animate(backgroundCanvas) {
   c.scale(MAP_SCALE, MAP_SCALE);
   c.translate(-horizontalScrollDistance, -verticalScrollDistance);
   c.drawImage(backgroundCanvas, 0, 0);
-  player.draw(c);
 
-  // render out our monsters
+  // Update monsters and check for collisions
   for (let i = monsters.length - 1; i >= 0; i--) {
     const monster = monsters[i];
     monster.update(deltaTime, collisionBlocks);
-    monster.draw(c);
 
-    // Detect for collision
+    // Player attack collision
     if (
       player.attackBox.x + player.attackBox.width >= monster.x &&
       player.attackBox.x <= monster.x + monster.width &&
@@ -376,6 +374,7 @@ function animate(backgroundCanvas) {
       }
     }
 
+    // Monster attack collision
     if (
       player.x + player.width >= monster.x &&
       player.x <= monster.x + monster.width &&
@@ -403,6 +402,13 @@ function animate(backgroundCanvas) {
       }
     }
   }
+
+  // Sort and render all movable objects
+  const renderables = [player, ...monsters];
+  renderables.sort((a, b) => a.y - b.y);
+  renderables.forEach((renderable) => {
+    renderable.draw(c);
+  });
 
   // Check for game success
   if (monsters.length === 0) {
