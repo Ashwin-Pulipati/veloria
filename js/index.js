@@ -3,6 +3,8 @@ const closeSettingsButton = document.getElementById("close-settings-button");
 const settingsPanel = document.getElementById("settings-panel");
 const musicToggleButton = document.getElementById("music-toggle-button");
 const soundToggleButton = document.getElementById("sound-toggle-button");
+const instructionsPanel = document.getElementById("instructions-panel");
+const continueButton = document.getElementById("continue-button");
 
 let isPaused = false; 
 
@@ -376,6 +378,7 @@ function animate(backgroundCanvas) {
       }
 
       if (filledHearts.length <= 1) {
+        openSettingsButton.style.display = "none";
         const gameOverScreen = document.getElementById("game-over-screen");
         gameOverScreen.style.display = "flex";
         const restartButton = document.getElementById("restart-button");
@@ -391,6 +394,7 @@ function animate(backgroundCanvas) {
 
   // Check for game success
   if (monsters.length === 0) {
+    openSettingsButton.style.display = "none";
     const successScreen = document.getElementById("success-screen");
     successScreen.style.display = "flex";
     const playAgainButton = document.getElementById("play-again-button");
@@ -451,15 +455,21 @@ const startRendering = async () => {
   }
 };
 
-const splashScreen = document.getElementById("splash-screen");
 const startButton = document.getElementById("start-button");
+const splashScreen = document.getElementById("splash-screen");
 
 startButton.addEventListener("click", () => {
   sounds.uiClick.play();
+  splashScreen.style.display = "none";
+  instructionsPanel.style.display = "flex";
+});
+
+continueButton.addEventListener("click", () => {
+  sounds.uiClick.play();
+  instructionsPanel.style.display = "none";
+  openSettingsButton.style.display = "block";
   sounds.gameStart.play();
   sounds.ambiance.play();
-  splashScreen.style.display = "none";
-  openSettingsButton.style.display = "block";
   startRendering();
 });
 

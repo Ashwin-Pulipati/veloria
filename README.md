@@ -30,6 +30,7 @@ This project is built with fundamental web technologies, demonstrating a pure Ja
 
 ## ✅ Key Features
 
+- **Onboarding:** An instruction pop-up appears at the beginning of the game to help new players get started.
 - **Dynamic Player Movement:** Smooth, key-based character navigation.
 - **Collision Detection:** Accurate collision handling with environmental objects.
 - **Combat System:** Engage in battles with various monsters.
@@ -67,9 +68,11 @@ You only need a modern web browser that supports HTML5 and JavaScript.
 
 ## 🚀 Usage
 
+When you first load the game, you will be greeted with a splash screen. Clicking the "Start Game" button will open an instruction pop-up with details on the game's objective and controls. Click "Continue" to start the game.
+
 Use the **WASD** or **Arrow Keys** to move your character around the map and the **Space Key** to attack enemies. The main objective is to defeat all the monsters that have invaded the village.
 
-You can access the **Settings & Info** panel by clicking the **⚙️** button on the top right of the screen. This panel provides information on the game's objective, controls, and includes an option to toggle the music.
+You can access the **Settings & Info** panel by clicking the **⚙️** button on the top right of the screen. This panel provides information on the game's objective, controls, and includes options to toggle the music and sound effects.
 
 ## 🤝 Contributing
 

@@ -173,7 +173,7 @@ canvas {
   display: none; 
 }
 
-#settings-panel {
+.panel {
   position: fixed;
   top: 0;
   left: 0;
@@ -185,6 +185,40 @@ canvas {
   justify-content: center;
   align-items: center;
   font-family: sans-serif;
+}
+
+#settings-panel {
+  display: none;
+}
+
+#instructions-panel {
+  display: none;
+}
+
+#close-instructions-button {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 30px;
+  cursor: pointer;
+}
+
+#continue-button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  width: 150px;
+  margin-top: 10px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .settings-content {
@@ -256,7 +290,7 @@ canvas {
 </style>
 <button id="open-settings-button">⚙️</button>
 
-<div id="settings-panel">
+<div id="settings-panel" class="panel">
   <div class="settings-content">
     <button id="close-settings-button">×</button>
     <h2>Settings & Info</h2>
@@ -279,7 +313,25 @@ canvas {
     </div>
   </div>
 </div>
-<div id="splash-screen" class="finisher-header" style="width: 100%; height: 100%;">
+<div id="instructions-panel" class="panel">
+  <div class="settings-content">
+    <h2>Welcome to Veloria!</h2>
+    <div class="info-section">
+      <h3>🎯 Objective</h3>
+      <p>Defeat all the monsters that have invaded the village!</p>
+    </div>
+    <div class="info-section">
+      <h3>⌨️ Controls</h3>
+      <p>
+        <strong>Movement:</strong> Use <kbd>W</kbd> <kbd>A</kbd> <kbd>S</kbd>
+        <kbd>D</kbd> keys.
+      </p>
+      <p><strong>Attack:</strong> Press the <kbd>Spacebar</kbd> to attack.</p>
+    </div>
+    <button id="continue-button">Continue</button>
+  </div>
+</div>
+<div id="splash-screen" class="finisher-header" style="width: 100%; height: 100%; display: flex;">
   <div class="logo-container">
     <img src="./images/logo.png" alt="Veloria Logo" class="logo">
     <h1>Veloria</h1>
