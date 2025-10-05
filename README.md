@@ -37,6 +37,7 @@ This project is built with fundamental web technologies, demonstrating a pure Ja
 - **Health & Items:** Collect hearts to replenish health and leaves for potential power-ups.
 - **Layered World:** Rich, multi-layered maps creating a sense of depth.
 - **Sound Effects:** Immersive audio feedback for actions and events.
+- **Character Identification:** Clear identification of the player and enemy characters in the game's instructions and settings.
 
 ## ▶️ Getting Started
 
@@ -68,11 +69,13 @@ You only need a modern web browser that supports HTML5 and JavaScript.
 
 ## 🚀 Usage
 
-When you first load the game, you will be greeted with a splash screen. Clicking the "Start Game" button will open an instruction pop-up with details on the game's objective and controls. Click "Continue" to start the game.
+When you first load the game, you will be greeted with a splash screen. Clicking the "Start Game" button will open an instruction pop-up with details on the game's objective, characters, and controls. Click "Continue" to start the game.
 
 Use the **W** (Up), **A** (Left), **S** (Down), and **D** (Right) keys or the **Arrow Keys** to move your character around the map and the **Space Key** to attack enemies. The main objective is to defeat all the monsters that have invaded the village.
 
-You can access the **Settings & Info** panel by clicking the **⚙️** button on the top right of the screen. This panel provides information on the game's objective, controls, and includes options to toggle the music and sound effects.
+You can access the **Settings & Info** panel by clicking the **⚙️** button on the top right of the screen. This panel provides information on the game's objective, characters, controls, and includes options to toggle the music and sound effects.
+
+
 
 ## 🤝 Contributing
 
