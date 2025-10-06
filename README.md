@@ -81,7 +81,7 @@ You can access the **Settings & Info** panel by clicking the **⚙️** button o
 
 
 
-## Contributors
+## 🏆 Contributors
 
 <table>
   <tr>
