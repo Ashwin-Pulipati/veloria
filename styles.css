@@ -1,0 +1,355 @@
+@import url('https://fonts.googleapis.com/css2?family=Iceberg&family=Press+Start+2P&display=swap');
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  vertical-align: baseline;
+}
+body {
+  margin: 0;
+  background: #15182E;
+}
+
+canvas {
+  width: 100%;
+  height: 100%;
+}
+
+#splash-screen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-family: sans-serif;
+}
+
+#splash-screen .logo-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+#splash-screen .logo {
+  width: 80px; 
+  height: 100px; 
+  margin-right: 20px; 
+}
+
+#splash-screen h1 {
+  font-family: 'Iceberg', cursive;
+  font-size: 100px;
+}
+
+#start-button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 20px;
+  cursor: pointer;
+  border-radius: 50px;
+  background: linear-gradient(to left, #4CAF50, #8BC34A); 
+  color: white;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#start-button .emoji {
+  margin-left: 10px;
+}
+
+#game-over-screen {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: black;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+
+#game-over-screen h1 {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 100px;
+}
+
+#restart-button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 20px;
+  cursor: pointer;
+  border-radius: 50px;
+  background: linear-gradient(to left, #f44336, #e57373); 
+  color: white;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#restart-button .emoji {
+  margin-left: 10px;
+}
+
+#success-screen {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: black;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+
+#success-screen h1 {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 100px;
+}
+
+#play-again-button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 20px;
+  cursor: pointer;
+  border-radius: 50px;
+  background: linear-gradient(to left, #4CAF50, #8BC34A); 
+  color: white;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#play-again-button .emoji {
+  margin-left: 10px;
+}
+
+.key-instructions {
+  margin-top: 25px;
+  color: #ccc;
+  font-family: sans-serif;
+  font-size: 16px;
+}
+
+.key-instructions kbd {
+  background-color: #333;
+  border-radius: 4px;
+  border: 1px solid #555;
+  padding: 4px 8px;
+  font-size: 14px;
+  box-shadow: 1px 1px 0 #555;
+}
+
+#open-settings-button {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+  background-color: rgba(21, 24, 46, 0.8);
+  color: white;
+  border: 1px solid #87ddfe;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  font-size: 24px;
+  cursor: pointer;
+  display: none; 
+}
+
+.panel {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.85);
+  z-index: 2000;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  font-family: sans-serif;
+}
+
+#settings-panel {
+  display: none;
+}
+
+#instructions-panel {
+  display: none;
+}
+
+#close-instructions-button {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 30px;
+  cursor: pointer;
+}
+
+#continue-button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  width: 150px;
+  margin-top: 10px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.settings-content {
+  background-color: #15182e;
+  padding: 30px 40px;
+  border-radius: 10px;
+  border: 1px solid #87ddfe;
+  color: white;
+  position: relative;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 0 20px rgba(135, 221, 254, 0.3);
+}
+
+.settings-content h2 {
+  font-family: "Iceberg", cursive;
+  font-size: 40px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.settings-content .info-section {
+  margin-bottom: 20px;
+}
+
+.settings-content h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: #87ddfe;
+  border-bottom: 1px solid #444;
+  padding-bottom: 5px;
+}
+
+.settings-content p {
+  line-height: 1.6;
+}
+
+.settings-content kbd {
+  background-color: #333;
+  border-radius: 4px;
+  border: 1px solid #555;
+  padding: 2px 6px;
+  font-size: 12px;
+}
+
+#close-settings-button {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 30px;
+  cursor: pointer;
+}
+
+#music-toggle-button,
+#sound-toggle-button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  width: 150px;
+  margin-top: 10px;
+}
+
+.character-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.character-label {
+    text-align: center;
+}
+
+.character-image {
+    width: 32px;
+    height: 32px;
+    image-rendering: pixelated;
+}
+
+.monsters-container {
+    width: 190px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.finisher-header-fullscreen {
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+
+.game-over-screen-properties {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+.restart-button-properties {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.success-screen-properties {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+.pixelated-canvas {
+    image-rendering: pixelated;
+}
