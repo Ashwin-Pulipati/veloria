@@ -16,6 +16,10 @@
 
 Veloria is a classic 2D adventure game where players navigate a vibrant world, battling monsters and exploring different levels. The game is built entirely with vanilla JavaScript and rendered on an HTML5 Canvas, showcasing browser-based game development techniques.
 
+
+https://github.com/user-attachments/assets/59f66449-b3ed-4468-abb6-95cd53e884a7
+
+
 ## ⚙️ Built With
 
 This project is built with fundamental web technologies, demonstrating a pure JavaScript-based game engine.
