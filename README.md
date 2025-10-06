@@ -89,7 +89,7 @@ You can access the **Settings & Info** panel by clicking the **⚙️** button o
       <a href="https://www.linkedin.com/in/nishanthpilli/">
         <img src="https://tinyurl.com/nishanth-profile" width="100px;" alt="Nishanth Pilli"/><br />
       </a>
-      <span><b>Nishanth Pilli</b></span>
+      <span><b>Nishanth Pilli</b></span><br />
       <span>(Product Designer)</span><br />
       <a href="https://www.linkedin.com/in/nishanthpilli/">LinkedIn</a> | 
       <a href="https://www.nishanthpilli.com/">Portfolio</a>
