@@ -33,7 +33,7 @@ const MAP_HEIGHT = 16 * MAP_ROWS;
 // draw scale (world pixels to screen)
 let MAP_SCALE;
 if (window.innerWidth <= 768) {
-  MAP_SCALE = dpr + 3;
+  MAP_SCALE = dpr + 4;
 } else {
   MAP_SCALE = dpr + 2; 
 }
