@@ -23,33 +23,6 @@ canvas.width = INTERNAL_WIDTH * dpr;
 canvas.height = INTERNAL_HEIGHT * dpr;
 
 
-// Letterbox-fit canvas to viewport while preserving 16:9
-function sizeCanvasToViewport() {
-  const vw = window.innerWidth;
-  const vh = window.visualViewport?.height || window.innerHeight;
-  const targetAspect = INTERNAL_WIDTH / INTERNAL_HEIGHT;
-  const currentAspect = vw / vh;
-
-  let displayW, displayH;
-  if (currentAspect > targetAspect) {
-    // window is wider than 16:9 -> limit by height
-    displayH = vh;
-    displayW = Math.round(vh * targetAspect);
-  } else {
-    // window is taller than 16:9 -> limit by width
-    displayW = vw;
-    displayH = Math.round(vw / targetAspect);
-  }
-  canvas.style.width = displayW + "px";
-  canvas.style.height = displayH + "px";
-}
-sizeCanvasToViewport();
-window.addEventListener("resize", sizeCanvasToViewport);
-if (window.visualViewport) {
-   window.visualViewport.addEventListener("resize", sizeCanvasToViewport);
- }
-window.addEventListener("orientationchange", sizeCanvasToViewport);
-
 // WORLD / CAMERA SIZING
 
 const MAP_COLS = 28;

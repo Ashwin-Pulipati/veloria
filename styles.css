@@ -4,14 +4,21 @@
 html, body { height: 100%; }
 body { margin: 0; background: #15182E; overflow: hidden; }
 
-/* --- Canvas wrapper keeps aspect ratio, centers, and letterboxes --- */
-#game-canvas-wrap {
+/* Fill the screen and keep the canvas perfectly centered */
+#game-canvas-wrap{
   position: fixed;
   inset: 0;
-  display: grid;
-  place-items: center;
+  overflow: hidden;         
+  background: #15182E;     
 }
-canvas.pixelated-canvas {
+
+canvas.pixelated-canvas{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
+  width:  min(100svw, calc(100svh * (16/9)));
+  height: min(100svh, calc(100svw / (16/9)));
   display: block;
   image-rendering: pixelated;
 }
