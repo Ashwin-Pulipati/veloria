@@ -58,7 +58,7 @@ const MAP_WIDTH = 16 * MAP_COLS;
 const MAP_HEIGHT = 16 * MAP_ROWS;
 
 // draw scale (world pixels to screen)
-const MAP_SCALE = dpr + 3;
+const MAP_SCALE = dpr + 2;
 
 const VIEWPORT_WIDTH = canvas.width / MAP_SCALE;
 const VIEWPORT_HEIGHT = canvas.height / MAP_SCALE;
