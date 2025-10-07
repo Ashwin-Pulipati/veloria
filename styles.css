@@ -1,355 +1,129 @@
 @import url('https://fonts.googleapis.com/css2?family=Iceberg&family=Press+Start+2P&display=swap');
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  border: 0;
-  font: inherit;
-  vertical-align: baseline;
-}
-body {
-  margin: 0;
-  background: #15182E;
-}
 
-canvas {
-  width: 100%;
-  height: 100%;
-}
+* { box-sizing: border-box; margin: 0; padding: 0; border: 0; font: inherit; vertical-align: baseline; }
+html, body { height: 100%; }
+body { margin: 0; background: #15182E; overflow: hidden; }
 
-#splash-screen {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  color: white;
-  font-family: sans-serif;
-}
-
-#splash-screen .logo-container {
-  display: flex;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-#splash-screen .logo {
-  width: 80px; 
-  height: 100px; 
-  margin-right: 20px; 
-}
-
-#splash-screen h1 {
-  font-family: 'Iceberg', cursive;
-  font-size: 100px;
-}
-
-#start-button {
-  margin-top: 20px;
-  padding: 10px 20px;
-  font-size: 20px;
-  cursor: pointer;
-  border-radius: 50px;
-  background: linear-gradient(to left, #4CAF50, #8BC34A); 
-  color: white;
-  border: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-#start-button .emoji {
-  margin-left: 10px;
-}
-
-#game-over-screen {
-  display: none;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: black;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  color: white;
-}
-
-#game-over-screen h1 {
-  font-family: 'Press Start 2P', cursive;
-  font-size: 100px;
-}
-
-#restart-button {
-  margin-top: 20px;
-  padding: 10px 20px;
-  font-size: 20px;
-  cursor: pointer;
-  border-radius: 50px;
-  background: linear-gradient(to left, #f44336, #e57373); 
-  color: white;
-  border: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-#restart-button .emoji {
-  margin-left: 10px;
-}
-
-#success-screen {
-  display: none;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: black;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  color: white;
-}
-
-#success-screen h1 {
-  font-family: 'Press Start 2P', cursive;
-  font-size: 100px;
-}
-
-#play-again-button {
-  margin-top: 20px;
-  padding: 10px 20px;
-  font-size: 20px;
-  cursor: pointer;
-  border-radius: 50px;
-  background: linear-gradient(to left, #4CAF50, #8BC34A); 
-  color: white;
-  border: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-#play-again-button .emoji {
-  margin-left: 10px;
-}
-
-.key-instructions {
-  margin-top: 25px;
-  color: #ccc;
-  font-family: sans-serif;
-  font-size: 16px;
-}
-
-.key-instructions kbd {
-  background-color: #333;
-  border-radius: 4px;
-  border: 1px solid #555;
-  padding: 4px 8px;
-  font-size: 14px;
-  box-shadow: 1px 1px 0 #555;
-}
-
-#open-settings-button {
+/* --- Canvas wrapper keeps aspect ratio, centers, and letterboxes --- */
+#game-canvas-wrap {
   position: fixed;
-  top: 20px;
-  right: 20px;
-  z-index: 1000;
-  background-color: rgba(21, 24, 46, 0.8);
+  inset: 0;
+  display: grid;
+  place-items: center;
+}
+canvas.pixelated-canvas {
+  display: block;
+  image-rendering: pixelated;
+}
+
+/* Splash */
+#splash-screen {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   color: white;
-  border: 1px solid #87ddfe;
-  border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  font-size: 24px;
-  cursor: pointer;
-  display: none; 
+  font-family: sans-serif;
+  z-index: 1500;
+  text-align: center;
+  padding: 2rem;
+}
+#splash-screen .logo-container { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; flex-wrap: wrap; justify-content: center; }
+#splash-screen .logo { width: clamp(56px, 10vw, 96px); height: clamp(70px, 12vw, 120px); }
+#splash-screen h1 { font-family: 'Iceberg', cursive; font-size: clamp(44px, 8vw, 100px); line-height: 1; }
+
+#start-button, #restart-button, #play-again-button {
+  margin-top: 20px; padding: 12px 22px; font-size: clamp(16px, 2.6vw, 20px);
+  cursor: pointer; border-radius: 50px; color: white; border: none;
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+}
+#start-button { background: linear-gradient(to left, #4CAF50, #8BC34A); }
+#restart-button { background: linear-gradient(to left, #f44336, #e57373); }
+#play-again-button { background: linear-gradient(to left, #4CAF50, #8BC34A); }
+
+/* Game over / success */
+#game-over-screen, #success-screen {
+  display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9);
+  flex-direction: column; justify-content: center; align-items: center; color: white;
+  z-index: 1400; text-align: center; padding: 2rem;
+}
+#game-over-screen h1, #success-screen h1 {
+  font-family: 'Press Start 2P', cursive; font-size: clamp(36px, 8vw, 100px); line-height: 1.1;
+}
+
+/* Settings / Instructions panels */
+#open-settings-button {
+  position: fixed; top: 16px; right: 16px; z-index: 1600;
+  background-color: rgba(21, 24, 46, 0.8); color: white;
+  border: 1px solid #87ddfe; border-radius: 50%;
+  width: clamp(44px, 8vw, 50px); height: clamp(44px, 8vw, 50px);
+  font-size: clamp(18px, 3vw, 24px); cursor: pointer; display: none;
 }
 
 .panel {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.85);
-  z-index: 2000;
-  display: none;
-  justify-content: center;
-  align-items: center;
-  font-family: sans-serif;
+  position: fixed; inset: 0; background-color: rgba(0, 0, 0, 0.85);
+  z-index: 2000; display: none; justify-content: center; align-items: center;
+  font-family: sans-serif; padding: 20px;
 }
-
-#settings-panel {
-  display: none;
-}
-
-#instructions-panel {
-  display: none;
-}
-
-#close-instructions-button {
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  background: none;
-  border: none;
-  color: white;
-  font-size: 30px;
-  cursor: pointer;
-}
-
-#continue-button {
-  background-color: #4caf50;
-  color: white;
-  border: none;
-  padding: 10px 15px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-  width: 150px;
-  margin-top: 10px;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}
-
 .settings-content {
-  background-color: #15182e;
-  padding: 30px 40px;
-  border-radius: 10px;
-  border: 1px solid #87ddfe;
-  color: white;
-  position: relative;
-  width: 90%;
-  max-width: 500px;
-  box-shadow: 0 0 20px rgba(135, 221, 254, 0.3);
+  background-color: #15182e; padding: clamp(20px, 4vw, 30px) clamp(20px, 5vw, 40px);
+  border-radius: 12px; border: 1px solid #87ddfe; color: white; position: relative;
+  width: min(92vw, 560px); box-shadow: 0 0 20px rgba(135, 221, 254, 0.3);
 }
-
-.settings-content h2 {
-  font-family: "Iceberg", cursive;
-  font-size: 40px;
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.settings-content .info-section {
-  margin-bottom: 20px;
-}
-
-.settings-content h3 {
-  font-size: 18px;
-  margin-bottom: 10px;
-  color: #87ddfe;
-  border-bottom: 1px solid #444;
-  padding-bottom: 5px;
-}
-
-.settings-content p {
-  line-height: 1.6;
-}
-
-.settings-content kbd {
-  background-color: #333;
-  border-radius: 4px;
-  border: 1px solid #555;
-  padding: 2px 6px;
-  font-size: 12px;
-}
+.settings-content h2 { font-family: "Iceberg", cursive; font-size: clamp(28px, 6vw, 40px); text-align: center; margin-bottom: 16px; }
+.settings-content .info-section { margin-bottom: 16px; }
+.settings-content h3 { font-size: clamp(16px, 3.8vw, 18px); margin-bottom: 8px; color: #87ddfe; border-bottom: 1px solid #444; padding-bottom: 5px; }
+.settings-content p { line-height: 1.6; font-size: clamp(14px, 3.6vw, 16px); }
+.settings-content kbd { background:#333; border-radius:4px; border:1px solid #555; padding:2px 6px; font-size: 0.9em; }
 
 #close-settings-button {
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  background: none;
-  border: none;
-  color: white;
-  font-size: 30px;
-  cursor: pointer;
+  position: absolute; top: 10px; right: 20px; background: none; border: none;
+  color: white; font-size: clamp(24px, 5vw, 30px); cursor: pointer;
 }
 
-#music-toggle-button,
-#sound-toggle-button {
-  background-color: #4caf50;
-  color: white;
-  border: none;
-  padding: 10px 15px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-  width: 150px;
-  margin-top: 10px;
+#music-toggle-button, #sound-toggle-button, #continue-button {
+  background-color: #4caf50; color: white; border: none; padding: 10px 15px; border-radius: 8px;
+  cursor: pointer; font-size: clamp(14px, 3.5vw, 16px); width: 170px; margin-top: 10px; margin-left:10px;
+}
+#continue-button { display: block; margin: 10px auto 0; }
+
+/* Character grid */
+.character-container { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; align-items: start; }
+.character-label { text-align: center; font-weight: 600; }
+.character-image { width: 32px; height: 32px; image-rendering: pixelated;}
+.monsters-container { width: 100%; display: grid; grid-template-columns: repeat(4, 1fr); place-items: center; gap: 10px; }
+#settings-panel .character-container > div:first-child .character-image,
+#instructions-panel .character-container > div:first-child .character-image {
+  display: block;             
+  margin-inline: auto;        
 }
 
-.character-container {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
+.key-instructions { margin-top: 18px; color: #ccc; font-family: sans-serif; font-size: clamp(14px, 3.2vw, 16px); }
+.key-instructions kbd { background-color: #333; border-radius: 4px; border: 1px solid #555; padding: 4px 8px; font-size: 0.9em; box-shadow: 1px 1px 0 #555; }
+
+.finisher-header-fullscreen { width: 100vw; height: 100vh; display: flex; }
+
+/* Breakpoints for tighter screens */
+@media (max-width: 768px) {
+  .monsters-container { grid-template-columns: repeat(4, 1fr); }
+  #settings-panel {
+    align-items: flex-start; 
+    overflow-y: auto;        
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+  .settings-content {
+    margin: 0 auto;         
+    max-height: none;       
+    overflow-y: visible;   
+  }
+}
+@media (max-width: 480px) {
+  .character-container { grid-template-columns: 1fr; }
+  .monsters-container { grid-template-columns: repeat(6, 1fr); }
 }
 
-.character-label {
-    text-align: center;
-}
-
-.character-image {
-    width: 32px;
-    height: 32px;
-    image-rendering: pixelated;
-}
-
-.monsters-container {
-    width: 190px;
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 10px;
-}
-
-.finisher-header-fullscreen {
-    width: 100%;
-    height: 100%;
-    display: flex;
-}
-
-.game-over-screen-properties {
-    display: none;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    color: white;
-}
-
-.restart-button-properties {
-    margin-top: 20px;
-    padding: 10px 20px;
-    font-size: 20px;
-    cursor: pointer;
-}
-
-.success-screen-properties {
-    display: none;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    color: white;
-}
-
-.pixelated-canvas {
-    image-rendering: pixelated;
-}
+.game-over-screen-properties,
+.success-screen-properties { display: none; }

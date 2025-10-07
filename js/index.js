@@ -6,31 +6,66 @@ const soundToggleButton = document.getElementById("sound-toggle-button");
 const instructionsPanel = document.getElementById("instructions-panel");
 const continueButton = document.getElementById("continue-button");
 
-let isPaused = false; 
+let isPaused = false;
 
 const canvas = document.querySelector("canvas");
 const c = canvas.getContext("2d");
 const dpr = window.devicePixelRatio || 1;
 
-canvas.width = 1024 * dpr;
-canvas.height = 576 * dpr;
+// RESPONSIVE CANVAS DISPLAY
+// - Internal game resolution remains 1024x576 (scaled by DPR for crispness).
+// - Only change the CSS display size to fit the window while preserving 16:9.
+const INTERNAL_WIDTH = 1024;
+const INTERNAL_HEIGHT = 576;
+
+// Internal pixel buffer (crisp on HiDPI)
+canvas.width = INTERNAL_WIDTH * dpr;
+canvas.height = INTERNAL_HEIGHT * dpr;
+
+// Scale all drawing by DPR so 1 game unit == 1 CSS px at 1024x576 base
+c.scale(dpr, dpr);
+
+// Letterbox-fit canvas to viewport while preserving 16:9
+function sizeCanvasToViewport() {
+  const vw = window.innerWidth;
+  const vh = window.innerHeight;
+  const targetAspect = INTERNAL_WIDTH / INTERNAL_HEIGHT;
+  const currentAspect = vw / vh;
+
+  let displayW, displayH;
+  if (currentAspect > targetAspect) {
+    // window is wider than 16:9 -> limit by height
+    displayH = vh;
+    displayW = Math.round(vh * targetAspect);
+  } else {
+    // window is taller than 16:9 -> limit by width
+    displayW = vw;
+    displayH = Math.round(vw / targetAspect);
+  }
+  canvas.style.width = displayW + "px";
+  canvas.style.height = displayH + "px";
+}
+sizeCanvasToViewport();
+window.addEventListener("resize", sizeCanvasToViewport);
+
+// WORLD / CAMERA SIZING
 
 const MAP_COLS = 28;
 const MAP_ROWS = 28;
 const MAP_WIDTH = 16 * MAP_COLS;
 const MAP_HEIGHT = 16 * MAP_ROWS;
 
+// draw scale (world pixels to screen)
 const MAP_SCALE = dpr + 2;
 
 const VIEWPORT_WIDTH = canvas.width / MAP_SCALE;
 const VIEWPORT_HEIGHT = canvas.height / MAP_SCALE;
-
 const VIEWPORT_CENTER_X = VIEWPORT_WIDTH / 2;
 const VIEWPORT_CENTER_Y = VIEWPORT_HEIGHT / 2;
-
 const MAX_SCROLL_X = MAP_WIDTH - VIEWPORT_WIDTH;
 const MAX_SCROLL_Y = MAP_HEIGHT - VIEWPORT_HEIGHT;
 
+// LAYERS / TILESETS
 const layersData = {
   l_Terrain: l_Terrain,
   l_Trees_1: l_Trees_1,
@@ -44,13 +79,11 @@ const layersData = {
   l_Characters: l_Characters,
   l_Collisions: l_Collisions,
 };
-
 const frontRenderLayersData = {
   l_Front_Renders: l_Front_Renders,
   l_Front_Renders_2: l_Front_Renders_2,
   l_Front_Renders_3: l_Front_Renders_3,
 };
-
 const tilesets = {
   l_Terrain: { imageUrl: "./images/terrain.png", tileSize: 16 },
   l_Front_Renders: { imageUrl: "./images/decorations.png", tileSize: 16 },
@@ -76,8 +109,7 @@ const tilesets = {
 
 // Tile setup
 const collisionBlocks = [];
-const blockSize = 16; // Assuming each tile is 16x16 pixels
-
+const blockSize = 16;
 collisions.forEach((row, y) => {
   row.forEach((symbol, x) => {
     if (symbol === 1) {
@@ -93,30 +125,23 @@ collisions.forEach((row, y) => {
 });
 
 const renderLayer = (tilesData, tilesetImage, tileSize, context) => {
-  // Calculate the number of tiles per row in the tileset
-  // We use Math.ceil to ensure we get a whole number of tiles
   const tilesPerRow = Math.ceil(tilesetImage.width / tileSize);
-
   tilesData.forEach((row, y) => {
     row.forEach((symbol, x) => {
       if (symbol !== 0) {
-        // Adjust index to be 0-based for calculations
         const tileIndex = symbol - 1;
-
-        // Calculate source coordinates
         const srcX = (tileIndex % tilesPerRow) * tileSize;
         const srcY = Math.floor(tileIndex / tilesPerRow) * tileSize;
-
         context.drawImage(
-          tilesetImage, // source image
+          tilesetImage,
           srcX,
-          srcY, // source x, y
+          srcY,
           tileSize,
-          tileSize, // source width, height
+          tileSize,
           x * 16,
-          y * 16, // destination x, y
+          y * 16,
           16,
-          16 // destination width, height
+          16
         );
       }
     });
@@ -145,50 +170,17 @@ const renderStaticLayers = async (layersData) => {
       }
     }
   }
-
-  // Optionally draw collision blocks and platforms for debugging
-  // collisionBlocks.forEach(block => block.draw(offscreenContext));
-
   return offscreenCanvas;
 };
-// END - Tile setup
 
-// Change xy coordinates to move player's default position
-const player = new Player({
-  x: 161,
-  y: 128,
-  size: 15,
-});
+// Player/monsters
+const player = new Player({ x: 161, y: 128, size: 15 });
 
 const monsterSprites = {
-  walkDown: {
-    x: 0,
-    y: 0,
-    width: 16,
-    height: 16,
-    frameCount: 4,
-  },
-  walkUp: {
-    x: 16,
-    y: 0,
-    width: 16,
-    height: 16,
-    frameCount: 4,
-  },
-  walkLeft: {
-    x: 32,
-    y: 0,
-    width: 16,
-    height: 16,
-    frameCount: 4,
-  },
-  walkRight: {
-    x: 48,
-    y: 0,
-    width: 16,
-    height: 16,
-    frameCount: 4,
-  },
+  walkDown: { x: 0, y: 0, width: 16, height: 16, frameCount: 4 },
+  walkUp: { x: 16, y: 0, width: 16, height: 16, frameCount: 4 },
+  walkLeft: { x: 32, y: 0, width: 16, height: 16, frameCount: 4 },
+  walkRight: { x: 48, y: 0, width: 16, height: 16, frameCount: 4 },
 };
 const monsters = [
   new Monster({
@@ -248,90 +240,51 @@ const monsters = [
     sprites: monsterSprites,
   }),
 ];
+
+// Input
 const keys = {
-  w: {
-    pressed: false,
-  },
-  a: {
-    pressed: false,
-  },
-  s: {
-    pressed: false,
-  },
-  d: {
-    pressed: false,
-  },
-  ArrowUp: {
-    pressed: false,
-  },
-  ArrowDown: {
-    pressed: false,
-  },
-  ArrowLeft: {
-    pressed: false,
-  },
-  ArrowRight: {
-    pressed: false,
-  },
+  w: { pressed: false },
+  a: { pressed: false },
+  s: { pressed: false },
+  d: { pressed: false },
+  ArrowUp: { pressed: false },
+  ArrowDown: { pressed: false },
+  ArrowLeft: { pressed: false },
+  ArrowRight: { pressed: false },
 };
 
 let lastTime = performance.now();
 let frontRendersCanvas;
 const hearts = [
-  new Heart({
-    x: 10,
-    y: 10,
-  }),
-  new Heart({
-    x: 32,
-    y: 10,
-  }),
-  new Heart({
-    x: 54,
-    y: 10,
-  }),
+  new Heart({ x: 10, y: 10 }),
+  new Heart({ x: 32, y: 10 }),
+  new Heart({ x: 54, y: 10 }),
 ];
-
-const leaves = [
-  new Leaf({
-    x: 20,
-    y: 20,
-    velocity: {
-      x: 0.08,
-      y: 0.08,
-    },
-  }),
-];
+const leaves = [new Leaf({ x: 20, y: 20, velocity: { x: 0.08, y: 0.08 } })];
 
 let elapsedTime = 0;
 function animate(backgroundCanvas) {
-
   if (isPaused) {
     requestAnimationFrame(() => animate(backgroundCanvas));
-    return; // Skip the rest of the function if paused
+    return;
   }
-  // Calculate delta time
+
   const currentTime = performance.now();
   const deltaTime = (currentTime - lastTime) / 1000;
   lastTime = currentTime;
 
   elapsedTime += deltaTime;
-
   if (elapsedTime > 1.5) {
     leaves.push(
       new Leaf({
         x: Math.random() * 150,
         y: Math.random() * 50,
-        velocity: {
-          x: 0.08,
-          y: 0.08,
-        },
+        velocity: { x: 0.08, y: 0.08 },
       })
     );
     elapsedTime = 0;
   }
 
-  // Update player position
   player.handleInput(keys);
   player.update(deltaTime, collisionBlocks);
 
@@ -339,25 +292,23 @@ function animate(backgroundCanvas) {
     Math.max(0, player.center.x - VIEWPORT_CENTER_X),
     MAX_SCROLL_X
   );
-
   const verticalScrollDistance = Math.min(
     Math.max(0, player.center.y - VIEWPORT_CENTER_Y),
     MAX_SCROLL_Y
   );
 
-  // Render scene
   c.clearRect(0, 0, canvas.width, canvas.height);
   c.save();
   c.scale(MAP_SCALE, MAP_SCALE);
   c.translate(-horizontalScrollDistance, -verticalScrollDistance);
   c.drawImage(backgroundCanvas, 0, 0);
 
-  // Update monsters and check for collisions
+  // Monsters + collisions
   for (let i = monsters.length - 1; i >= 0; i--) {
     const monster = monsters[i];
     monster.update(deltaTime, collisionBlocks);
 
-    // Player attack collision
+    // Attack collisions
     if (
       player.attackBox.x + player.attackBox.width >= monster.x &&
       player.attackBox.x <= monster.x + monster.width &&
@@ -374,7 +325,7 @@ function animate(backgroundCanvas) {
       }
     }
 
-    // Monster attack collision
+    // Monster hits player
     if (
       player.x + player.width >= monster.x &&
       player.x <= monster.x + monster.width &&
@@ -384,9 +335,8 @@ function animate(backgroundCanvas) {
     ) {
       player.receiveHit();
       const filledHearts = hearts.filter((heart) => heart.currentFrame === 4);
-      if (filledHearts.length > 0) {
+      if (filledHearts.length > 0)
         filledHearts[filledHearts.length - 1].currentFrame = 0;
-      }
 
       if (filledHearts.length <= 1) {
         openSettingsButton.style.display = "none";
@@ -403,14 +353,12 @@ function animate(backgroundCanvas) {
     }
   }
 
-  // Sort and render all movable objects
+  // Depth sort drawables
   const renderables = [player, ...monsters];
   renderables.sort((a, b) => a.y - b.y);
-  renderables.forEach((renderable) => {
-    renderable.draw(c);
-  });
+  renderables.forEach((r) => r.draw(c));
 
-  // Check for game success
+  // Success
   if (monsters.length === 0) {
     openSettingsButton.style.display = "none";
     const successScreen = document.getElementById("success-screen");
@@ -425,16 +373,14 @@ function animate(backgroundCanvas) {
 
   c.drawImage(frontRendersCanvas, 0, 0);
 
+  // Leaves FX
   for (let i = leaves.length - 1; i >= 0; i--) {
     const leaf = leaves[i];
     leaf.update(deltaTime);
     leaf.draw(c);
+    if (leaf.alpha <= 0) leaves.splice(i, 1);
 
-    if (leaf.alpha <= 0) {
-      leaves.splice(i, 1);
-    }
-
-    // Detect for collision between player and leaf
+    // Collect leaf
     if (
       player.x < leaf.x + leaf.width &&
       player.x + player.width > leaf.x &&
@@ -448,11 +394,10 @@ function animate(backgroundCanvas) {
 
   c.restore();
 
+  // HUD
   c.save();
   c.scale(MAP_SCALE, MAP_SCALE);
-  hearts.forEach((heart) => {
-    heart.draw(c);
-  });
+  hearts.forEach((heart) => heart.draw(c));
   c.restore();
 
   requestAnimationFrame(() => animate(backgroundCanvas));
@@ -466,13 +411,13 @@ const startRendering = async () => {
       console.error("Failed to create the background canvas");
       return;
     }
-
     animate(backgroundCanvas);
   } catch (error) {
     console.error("Error during rendering:", error);
   }
 };
 
+// UI events
 const startButton = document.getElementById("start-button");
 const splashScreen = document.getElementById("splash-screen");
 
@@ -501,7 +446,7 @@ closeSettingsButton.addEventListener("click", () => {
   sounds.uiClick.play();
   isPaused = false;
   settingsPanel.style.display = "none";
-  lastTime = performance.now(); 
+  lastTime = performance.now();
 });
 
 musicToggleButton.addEventListener("click", () => {
@@ -514,13 +459,11 @@ musicToggleButton.addEventListener("click", () => {
 
 soundToggleButton.addEventListener("click", () => {
   sounds.uiClick.play();
-  const isMuted = Object.values(sounds).filter(sound => sound !== sounds.uiClick && sound !== sounds.ambiance).some(sound => !sound.muted);
-  for (const sound of Object.values(sounds)) {
-    if (sound !== sounds.uiClick && sound !== sounds.ambiance) {
-      sound.muted = isMuted;
-    }
+  const isMuted = Object.values(sounds)
+    .filter((s) => s !== sounds.uiClick && s !== sounds.ambiance)
+    .some((s) => !s.muted);
+  for (const s of Object.values(sounds)) {
+    if (s !== sounds.uiClick && s !== sounds.ambiance) s.muted = isMuted;
   }
-  soundToggleButton.textContent = isMuted
-    ? "Sounds: OFF 🔇"
-    : "Sounds: ON 🔊";
+  soundToggleButton.textContent = isMuted ? "Sounds: OFF 🔇" : "Sounds: ON 🔊";
 });

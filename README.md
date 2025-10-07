@@ -34,6 +34,7 @@ This project is built with fundamental web technologies, demonstrating a pure Ja
 
 ## ✅ Key Features
 
+- **Responsive Design:** The game is fully responsive and adapts to different screen sizes, providing a seamless experience on both desktop and mobile devices.
 - **Onboarding:** An instruction pop-up appears at the beginning of the game to help new players get started.
 - **Dynamic Player Movement:** Smooth, key-based character navigation.
 - **Collision Detection:** Accurate collision handling with environmental objects.
