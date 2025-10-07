@@ -22,13 +22,11 @@ const INTERNAL_HEIGHT = 576;
 canvas.width = INTERNAL_WIDTH * dpr;
 canvas.height = INTERNAL_HEIGHT * dpr;
 
-// Scale all drawing by DPR so 1 game unit == 1 CSS px at 1024x576 base
-c.scale(dpr, dpr);
 
 // Letterbox-fit canvas to viewport while preserving 16:9
 function sizeCanvasToViewport() {
   const vw = window.innerWidth;
-  const vh = window.innerHeight;
+  const vh = window.visualViewport?.height || window.innerHeight;
   const targetAspect = INTERNAL_WIDTH / INTERNAL_HEIGHT;
   const currentAspect = vw / vh;
 
@@ -47,6 +45,10 @@ function sizeCanvasToViewport() {
 }
 sizeCanvasToViewport();
 window.addEventListener("resize", sizeCanvasToViewport);
+if (window.visualViewport) {
+   window.visualViewport.addEventListener("resize", sizeCanvasToViewport);
+ }
+window.addEventListener("orientationchange", sizeCanvasToViewport);
 
 // WORLD / CAMERA SIZING
 
@@ -56,7 +58,7 @@ const MAP_WIDTH = 16 * MAP_COLS;
 const MAP_HEIGHT = 16 * MAP_ROWS;
 
 // draw scale (world pixels to screen)
-const MAP_SCALE = dpr + 2;
+const MAP_SCALE = dpr + 3;
 
 const VIEWPORT_WIDTH = canvas.width / MAP_SCALE;
 const VIEWPORT_HEIGHT = canvas.height / MAP_SCALE;
