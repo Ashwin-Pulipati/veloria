@@ -44,6 +44,28 @@ This project is built with fundamental web technologies, demonstrating a pure Ja
 - **Sound Effects:** Immersive audio feedback for actions and events.
 - **Character Identification:** Clear identification of the player and enemy characters in the game's instructions and settings.
 
+## 🏗️ System Architecture
+
+Veloria is built on a custom 2D Canvas Engine designed for efficiency and smooth interaction. The architecture follows a classic Update-Render Game Loop pattern, ensuring decoupled logic for physics, AI, and graphics.
+
+### 1. The Core Loop (Engine Heartbeat)
+*   **Delta-Time Scaling:** The engine uses requestAnimationFrame with delta-time calculations to ensure game speed remains consistent regardless of the user's monitor refresh rate (60Hz, 144Hz, etc.).
+*   **State Management:** Orchestrates transitions between loading screens, active gameplay, and combat resolution.
+
+### 2. Entity Component Logic (OOP)
+*   **Modular Entity Classes:** Utilizes a robust Class-based structure for Player and Monster. By encapsulating state (velocity, health, invincibility frames), the engine can manage dozens of active entities with minimal overhead.
+*   **Action State Machine:** Manages complex animation states (Idle, Run, Attack, Hit) based on user input and environmental triggers.
+
+### 3. Physics & Collision System
+*   **AABB Collision Detection:** Implements Axis-Aligned Bounding Box (AABB) logic for precise interaction between entities and the environment.
+*   **World Parsing:** The engine parses Tiled-based map data into CollisionBlock objects, allowing for complex level designs without manual coordinate mapping.
+*   **Spatial Hit Detection:** Combat uses a specialized hit-box detection system to resolve interactions between the Player’s sword swing and Monster hurt-boxes.
+
+### 4. Rendering Pipeline
+*   **Y-Sorting (Depth Management):** To simulate a 2.5D top-down perspective, the engine dynamically sorts entities based on their Y coordinates, ensuring players appear "behind" or "in front of" objects correctly.
+*   **Layered Rendering:** Separates the environment into Background, Entity, and Foreground layers to allow for immersive elements like walking behind trees or under arches.
+*   **HUD & UI Overlay:** A dedicated UI layer tracks player vitals (Heart system) in real-time without interfering with the game world's coordinate system.
+
 ## ▶️ Getting Started
 
 To get a local copy up and running, follow these simple steps.
