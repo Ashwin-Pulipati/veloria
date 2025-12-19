@@ -46,6 +46,12 @@ This project is built with fundamental web technologies, demonstrating a pure Ja
 
 ## 🏗️ System Architecture
 
+<div align="center">
+    <img src="https://github.com/user-attachments/assets/8082eedd-9e66-456c-bbe4-f107231d6b8a" alt="Veloria System Architecture Diagram" width="900">
+</div>
+</br>
+
+
 Veloria is built on a custom 2D Canvas Engine designed for efficiency and smooth interaction. The architecture follows a classic Update-Render Game Loop pattern, ensuring decoupled logic for physics, AI, and graphics.
 
 ### 1. The Core Loop (Engine Heartbeat)
